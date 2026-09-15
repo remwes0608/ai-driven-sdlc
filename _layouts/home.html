@@ -3,16 +3,42 @@ layout: default
 ---
 {{ content }}
 
+{%- comment -%}
+Three posts chosen in `featured`, in the order they were written, because that is the order the
+argument runs in. Not the whole archive: that is the Articles page, and having both pages list
+everything is what this page was before.
+{%- endcomment -%}
+{%- if page.featured -%}
+<h2 class="home-heading" id="where-to-start">Where to start</h2>
 <ul class="post-list">
-  {%- comment -%}
-  The same list, the same way round, as the Articles page — the two pages differ only in their
-  title band. If one of them grows a reason to exist separately, that is the moment to split them.
-  {%- endcomment -%}
-  {% for post in site.posts %}
+  {%- for slug in page.featured -%}
+    {%- assign featured_post = site.posts | where: "slug", slug | first -%}
+    {%- if featured_post -%}
   <li>
-    <span class="post-meta">{{ post.date | date: '%B %-d, %Y' }} &middot; {% include read_time.html content=post.content %}</span>
-    <h2><a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h2>
-    {% if post.subtitle %}<p class="post-subtitle">{{ post.subtitle | escape }}</p>{% endif %}
+    <span class="post-meta">{{ featured_post.date | date: '%B %-d, %Y' }} &middot; {% include read_time.html content=featured_post.content %}</span>
+    <h2><a class="post-link" href="{{ featured_post.url | relative_url }}">{{ featured_post.title | escape }}</a></h2>
+    {% if featured_post.subtitle %}<p class="post-subtitle">{{ featured_post.subtitle | escape }}</p>{% endif %}
   </li>
-  {% endfor %}
+    {%- endif -%}
+  {%- endfor -%}
 </ul>
+{%- endif -%}
+
+{%- comment -%}
+The newest post, unless it is already above. This one is not curated — a reader coming back wants
+to see whether anything moved, and a hand-kept list is exactly the thing that stops moving.
+{%- endcomment -%}
+{%- assign latest = site.posts | first -%}
+{%- unless page.featured contains latest.slug -%}
+<h2 class="home-heading" id="latest">Latest</h2>
+<ul class="post-list">
+  <li>
+    <span class="post-meta">{{ latest.date | date: '%B %-d, %Y' }} &middot; {% include read_time.html content=latest.content %}</span>
+    <h2><a class="post-link" href="{{ latest.url | relative_url }}">{{ latest.title | escape }}</a></h2>
+    {% if latest.subtitle %}<p class="post-subtitle">{{ latest.subtitle | escape }}</p>{% endif %}
+  </li>
+</ul>
+{%- endunless -%}
+
+<p class="home-more"><a href="{{ '/posts/' | relative_url }}">All articles</a> &middot;
+<a href="{{ '/about/' | relative_url }}">Who is writing this</a></p>

@@ -551,3 +551,41 @@ body { color: var(--ink); }
   .main-content table th { border-bottom-color: rgba(255, 255, 255, 0.25); }
   .site-footer .social-links a { color: var(--muted); }
 }
+
+/* ---- Home ------------------------------------------------------------ */
+/* The home page is prose first and a list second. The lead is set larger than body copy because
+   it is the one paragraph a visitor from a search engine reliably reads; everything below it is
+   the normal measure. Colours are the palette's own, so nothing new needed measuring: --ink is
+   9.4:1 on the page, --muted 5.9:1, --accent 6.4:1. */
+.home-lead {
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1.55;
+  margin: 0 0 1.4rem;
+}
+
+/* A label rather than a title: it separates two short lists without competing with the post
+   titles under it, which are the only things on this page anyone is meant to click. */
+.home-heading {
+  margin: 2.8rem 0 1.4rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.home-more {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  .home-heading { border-bottom-color: rgba(255, 255, 255, 0.08); }
+}
+
+/* The last card in either list would otherwise draw a rule immediately above the next label. */
+.home-heading + .post-list > li:last-child { border-bottom: 0; padding-bottom: 0; }

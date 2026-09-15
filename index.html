@@ -1,6 +1,35 @@
 ---
 layout: home
 background: /img/bands/home-canopy.jpg
+description: What an AI-assisted delivery has to prove, and what it costs — from a migration, a greenfield build, and the piecemeal adoption most teams are doing.
+featured:
+  - new-tools-same-circle
+  - what-i-write-down-and-when
+  - when-the-truth-is-in-the-code
 ---
 
-{% include post-list-intro.html %}
+{%- comment -%}
+This page used to be the Articles list a second time. It is the page someone lands on after typing
+a name into a search box, so it answers the question they arrived with — what is this, and is it
+for me — before offering anything to read. The list of everything lives one click away, where
+somebody who already knows the site goes looking for it.
+
+`featured` is curated by hand and will not follow the archive as it grows: three posts that between
+them show the argument, the practice and the evidence. Slugs, so a retitled post keeps working; a
+slug that matches nothing is skipped silently, so check this list after renaming a file.
+{%- endcomment -%}
+
+<p class="home-lead">Code is now the cheap part. What is not cheap is being able to say, at the end
+of a release, which behaviours were asked for, which an agent decided along the way, and which
+nobody decided at all.</p>
+
+<p>That is the subject here: the specification, the decision record and the tests that make an
+AI-assisted delivery explainable. In a migration, where the specification has to be recovered from
+a system that already runs. In a greenfield build, where it is the only source there is. And in the
+case most teams are actually in — adopting agents a piece at a time, without a rewrite, while
+continuing to ship.</p>
+
+<p>Everything here comes from projects that ran, and the clients stay unnamed. Where an article
+claims something works, it carries the figures or the artefact that came out of it. What is not
+here: model comparisons and tool benchmarks, which date in weeks, and prompt technique — a
+specification outlives the session, gets reviewed, and is versioned with the code.</p>
