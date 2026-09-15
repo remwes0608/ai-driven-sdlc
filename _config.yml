@@ -21,7 +21,7 @@ lang: en
 # Cloudflare Web Analytics: the beacon token from the Web Analytics page of the Cloudflare
 # dashboard. Cookieless and without personal data, which is why there is no consent banner on this
 # site; the script is emitted only in a production build, so local work is never counted.
-# cloudflare_analytics: "your-beacon-token"
+cloudflare_analytics: "e20691876da14167affedb02d8c800f8"
 
 markdown:       kramdown
 permalink:      /posts/:title/
