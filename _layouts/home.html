@@ -1,44 +1,40 @@
 ---
 layout: default
 ---
+<div class="home-intro">
 {{ content }}
+</div>
 
 {%- comment -%}
-Three posts chosen in `featured`, in the order they were written, because that is the order the
-argument runs in. Not the whole archive: that is the Articles page, and having both pages list
-everything is what this page was before.
-{%- endcomment -%}
-{%- if page.featured -%}
-<h2 class="home-heading" id="where-to-start">Where to start</h2>
-<ul class="post-list">
-  {%- for slug in page.featured -%}
-    {%- assign featured_post = site.posts | where: "slug", slug | first -%}
-    {%- if featured_post -%}
-  <li>
-    <span class="post-meta">{{ featured_post.date | date: '%B %-d, %Y' }} &middot; {% include read_time.html content=featured_post.content %}</span>
-    <h2><a class="post-link" href="{{ featured_post.url | relative_url }}">{{ featured_post.title | escape }}</a></h2>
-    {% if featured_post.subtitle %}<p class="post-subtitle">{{ featured_post.subtitle | escape }}</p>{% endif %}
-  </li>
-    {%- endif -%}
-  {%- endfor -%}
-</ul>
-{%- endif -%}
+The two cards are the whole navigation of this page: the archive, and the person. They are the
+same two links as the bar above, deliberately — the bar is a 13px menu a reader's eye skips on
+arrival, and these are the two places anyone landing cold actually wants.
 
-{%- comment -%}
-The newest post, unless it is already above. This one is not curated — a reader coming back wants
-to see whether anything moved, and a hand-kept list is exactly the thing that stops moving.
+Each card is one <a>, so the whole rectangle is the target rather than the title alone. They carry
+no background of their own: everything sits on the page's own surface, which means the palette's
+measured contrast ratios hold here without anything new to check. Hover moves the border and the
+shadow only, for the same reason.
+
+The Articles card names the newest post. It is the one piece of "what is new" left on this page,
+and it is generated rather than kept by hand.
 {%- endcomment -%}
 {%- assign latest = site.posts | first -%}
-{%- unless page.featured contains latest.slug -%}
-<h2 class="home-heading" id="latest">Latest</h2>
-<ul class="post-list">
-  <li>
-    <span class="post-meta">{{ latest.date | date: '%B %-d, %Y' }} &middot; {% include read_time.html content=latest.content %}</span>
-    <h2><a class="post-link" href="{{ latest.url | relative_url }}">{{ latest.title | escape }}</a></h2>
-    {% if latest.subtitle %}<p class="post-subtitle">{{ latest.subtitle | escape }}</p>{% endif %}
-  </li>
-</ul>
-{%- endunless -%}
+<div class="page-cards">
+  <a class="page-card" href="{{ '/posts/' | relative_url }}">
+    <h2 class="page-card-title">Articles</h2>
+    <p class="page-card-text">Practice from projects that ran: what was decided, what it cost, and
+    what survived contact with a release. Newest first, and each one stands on its own.</p>
+    {%- if latest %}
+    <p class="page-card-note">Latest &middot; {{ latest.title | escape }}</p>
+    {%- endif %}
+    <span class="page-card-more" aria-hidden="true">Read the articles &rarr;</span>
+  </a>
 
-<p class="home-more"><a href="{{ '/posts/' | relative_url }}">All articles</a> &middot;
-<a href="{{ '/about/' | relative_url }}">Who is writing this</a></p>
+  <a class="page-card" href="{{ '/about/' | relative_url }}">
+    <h2 class="page-card-title">About</h2>
+    <p class="page-card-text">Who is writing this, the problem the site is about, and what has
+    actually been built with the answer so far — a migration, a greenfield product, and the
+    transformation that is harder than either.</p>
+    <span class="page-card-more" aria-hidden="true">Read about the author &rarr;</span>
+  </a>
+</div>

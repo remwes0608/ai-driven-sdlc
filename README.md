@@ -36,9 +36,6 @@ description: "One sentence, ~160 chars. Used for meta description, Open Graph an
 ```
 
 `layout: post` is applied by the `defaults` block in `_config.yml`, so it does not need repeating.
-If the new post is a better entry point than one of the three on the home page, swap its slug into
-the `featured:` list in `index.html` — a slug matching no post is skipped silently, so check that
-list after renaming a file.
 A post gets its table of contents automatically; a **page** opts in with `toc: true` in front
 matter, as `about.md` does. `description` is worth writing by hand — the fallback is the excerpt, which
 is the first paragraph and rarely reads well out of context.
@@ -64,7 +61,7 @@ The theme is vendored, so there is no override layer — `_layouts/`, `_includes
 
 | Path | What it carries |
 |---|---|
-| `index.html` + `_layouts/home.html` | The home page: its own prose, a curated `featured:` list of slugs, and the newest post |
+| `index.html` + `_layouts/home.html` | The home page: its own prose, and the two cards to Articles and About |
 | `_includes/head.html` | Open Graph, Twitter card and JSON-LD metadata |
 | `_includes/site-header.html` | The bar: title, links, and the social icons that stay visible on a phone |
 | `_includes/toc.html` + `assets/js/toc.js` | Table of contents, built from each page's own `h2`s |

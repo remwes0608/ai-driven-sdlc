@@ -553,10 +553,18 @@ body { color: var(--ink); }
 }
 
 /* ---- Home ------------------------------------------------------------ */
-/* The home page is prose first and a list second. The lead is set larger than body copy because
-   it is the one paragraph a visitor from a search engine reliably reads; everything below it is
-   the normal measure. Colours are the palette's own, so nothing new needed measuring: --ink is
-   9.4:1 on the page, --muted 5.9:1, --accent 6.4:1. */
+/* The home page is prose and two links, nothing else. It is the page a search engine hands to
+   somebody who typed the site's name, so it answers what-is-this before offering anything to
+   read; the archive is one click away for people who already know.
+
+   The lead is set larger than body copy because it is the one paragraph that reliably gets read.
+   Everything keeps the article measure rather than the 74rem shell — a three-line paragraph at
+   1,200px is unreadable in a different way from one at 400px. */
+.home-intro {
+  max-width: 44rem;
+  margin: 0 auto 2.6rem;
+}
+
 .home-lead {
   color: var(--ink);
   font-size: 1.2rem;
@@ -564,28 +572,94 @@ body { color: var(--ink); }
   margin: 0 0 1.4rem;
 }
 
-/* A label rather than a title: it separates two short lists without competing with the post
-   titles under it, which are the only things on this page anyone is meant to click. */
-.home-heading {
-  margin: 2.8rem 0 1.4rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+/* The two cards: the archive, and the person. Side by side where there is room, stacked below it.
+   They sit on the page's own surface with no fill of their own, which is why nothing here needed
+   a new contrast measurement — --accent is 6.4:1 and --ink 9.4:1 on this background, exactly as
+   measured at the top of this file. The border is a hairline and is decoration; what identifies
+   the card as a link is the accent-coloured line at the bottom of it, so the quiet border costs
+   nothing a reader needs. */
+.page-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  max-width: 48rem;
+  margin: 0 auto;
 }
 
-.home-more {
-  margin-top: 0.6rem;
+@media (min-width: 44em) {
+  .page-cards { grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+}
+
+.page-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem 1.5rem 1.4rem;
+  border: 1px solid #d9e0dd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.page-card:hover,
+.page-card:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(16, 32, 29, 0.09);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* Keyboard users get the browser ring as well as the hover treatment: the transform and the
+   shadow are easy to miss against a busy background, and the ring is not. */
+.page-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.page-card-title {
+  margin: 0 0 0.6rem;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: var(--accent);
+}
+
+.page-card-text {
+  margin: 0;
+  color: var(--ink);
   font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Named rather than listed: one line of "what is new" on a page that otherwise carries no posts,
+   and it is generated, so it cannot go stale the way a hand-kept list does. */
+.page-card-note {
+  margin: 0.9rem 0 0;
   color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.page-card-more {
+  margin-top: auto;
+  padding-top: 1.2rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 @media (prefers-color-scheme: dark) {
-  .home-heading { border-bottom-color: rgba(255, 255, 255, 0.08); }
+  .page-card { border-color: rgba(255, 255, 255, 0.16); }
+  .page-card:hover,
+  .page-card:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  }
 }
 
-/* The last card in either list would otherwise draw a rule immediately above the next label. */
-.home-heading + .post-list > li:last-child { border-bottom: 0; padding-bottom: 0; }
+/* A reader who asked not to be moved is not moved. */
+@media (prefers-reduced-motion: reduce) {
+  .page-card { transition: none; }
+  .page-card:hover,
+  .page-card:focus-visible { transform: none; }
+}
