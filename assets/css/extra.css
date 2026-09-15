@@ -385,6 +385,11 @@ body { color: var(--ink); }
   line-height: 1.55;
 }
 
+/* The theme's code grey is 4.6:1 on the light block and 3.4:1 on the dark one, so it failed in
+   dark mode outright and sat on the AA line in light. */
+.main-content pre,
+.main-content pre code { color: var(--ink); }
+
 /* Tables here carry prose, not columns of figures, so cells wrap and the table fits the measure.
    `nowrap` plus a scroll box is right for numeric data whose rows must stay aligned; applied to
    sentences it just hides half the content behind a scrollbar nobody notices. */
@@ -408,11 +413,28 @@ body { color: var(--ink); }
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 }
 
+/* The theme draws a border on every side of every cell. Zeroing border-right alone left the
+   left and top rules standing, so each column got a vertical line and the table read as a grid.
+   These tables carry sentences, not columns of figures: one rule under the header and one between
+   rows is all the structure prose needs. Found by the session porting this theme to the other
+   blog. */
 .main-content table th,
 .main-content table td {
   padding: 0.5rem 0.75rem 0.5rem 0;
   vertical-align: top;
+  border-left: 0;
   border-right: 0;
+  border-top: 0;
+}
+
+/* Inline code in a cell keeps the theme's own size and colour, so a header containing `f16` sits
+   half again as large as the words beside it. It inherits the cell here. */
+.main-content table th code,
+.main-content table td code {
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  padding: 0;
 }
 
 /* ---- Footer ---------------------------------------------------------- */
@@ -453,6 +475,53 @@ body { color: var(--ink); }
 .copyright {
   font-size: 0.78rem;
   color: var(--muted);
+}
+
+/* ---- Syntax highlighting in dark mode --------------------------------
+   The vendored Rouge theme is a light GitHub theme, and in dark mode the block's background
+   flips while its token colours do not: 14 of them fall under AA, the worst at 1.05:1, which is
+   invisible rather than merely hard.
+
+   One palette for both schemes is not possible, and the arithmetic says why: clearing 4.5:1 on
+   the light block (#f3f6fa) caps a colour's relative luminance at 0.161, while clearing it on the
+   dark block (#1b1e21) demands at least 0.229. Nothing satisfies both, so dark mode gets its own
+   set. Measured against #1b1e21, lowest here is 7.2:1.
+
+   Only the token classes that carry text are remapped; the diff backgrounds the theme paints are
+   left alone, since they are surfaces rather than ink. */
+@media (prefers-color-scheme: dark) {
+  .main-content .highlight .c,  .main-content .highlight .c1,
+  .main-content .highlight .cm, .main-content .highlight .cs,
+  .main-content .highlight .cp { color: #a2acb3; }
+
+  .main-content .highlight .k,  .main-content .highlight .kd,
+  .main-content .highlight .kn, .main-content .highlight .kp,
+  .main-content .highlight .kr, .main-content .highlight .kt,
+  .main-content .highlight .o,  .main-content .highlight .ow { color: #8ab4f0; }
+
+  .main-content .highlight .s,  .main-content .highlight .s1,
+  .main-content .highlight .s2, .main-content .highlight .sb,
+  .main-content .highlight .sc, .main-content .highlight .sd,
+  .main-content .highlight .se, .main-content .highlight .sh,
+  .main-content .highlight .si, .main-content .highlight .sx,
+  .main-content .highlight .sr { color: #8ecf9e; }
+
+  .main-content .highlight .n,  .main-content .highlight .na,
+  .main-content .highlight .nb, .main-content .highlight .nc,
+  .main-content .highlight .nd, .main-content .highlight .ne,
+  .main-content .highlight .nf, .main-content .highlight .ni,
+  .main-content .highlight .nl, .main-content .highlight .nn,
+  .main-content .highlight .no, .main-content .highlight .nt,
+  .main-content .highlight .nv, .main-content .highlight .vc,
+  .main-content .highlight .vg, .main-content .highlight .vi { color: #e79a92; }
+
+  .main-content .highlight .m,  .main-content .highlight .mf,
+  .main-content .highlight .mh, .main-content .highlight .mi,
+  .main-content .highlight .mo, .main-content .highlight .il,
+  .main-content .highlight .bp { color: #c7a5e2; }
+
+  .main-content .highlight .gh, .main-content .highlight .gu,
+  .main-content .highlight .gs, .main-content .highlight .ge { color: #86c8c9; }
 }
 
 /* ---- Dark mode ------------------------------------------------------- */
