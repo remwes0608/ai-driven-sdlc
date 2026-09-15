@@ -31,6 +31,13 @@ plugins:
   - jekyll-sitemap
 
 defaults:
+  # The Search Console verification file has to stay byte-identical, so it carries no front
+  # matter and cannot exclude itself. A default does it from the outside: jekyll-sitemap filters
+  # static files on `sitemap != false`, and Jekyll applies defaults to static files too.
+  - scope: { path: "google37fe15cdfbc965ec.html" }
+    values:
+      sitemap: false
+
   - scope: { path: "", type: posts }
     values:
       layout: post
