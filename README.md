@@ -9,6 +9,10 @@ templates and a few stylesheets, most of which are modified here, and a pinned c
 under the site. Pages builds it from the branch with no plugins outside the allowlist, so there is
 no Actions workflow to maintain.
 
+Plus Jakarta Sans is vendored the same way, in `assets/css/*.ttf`, under the SIL OFL 1.1 — the
+licence text is in `licenses/PlusJakartaSans-OFL.txt`, because redistributing the font files is
+allowed but only alongside that notice.
+
 ## Working on it locally
 
 ```sh
