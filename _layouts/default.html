@@ -32,5 +32,16 @@ on, which is the job the old 500px hero was failing to do.
 
 <script src="{{ '/assets/js/core.js' | relative_url }}"></script>
 {% if page.layout == 'post' or page.toc %}<script src="{{ '/assets/js/toc.js' | relative_url }}"></script>{% endif %}
+
+{%- comment -%}
+Cloudflare Web Analytics: page views, referrers and paths, with no cookies and nothing stored on
+the reader's machine — which is the only reason a site that strips third-party requests carries a
+third-party script at all. `jekyll.environment` is production on GitHub Pages and development
+under `jekyll serve`, so the beacon never fires while writing.
+{%- endcomment -%}
+{%- if jekyll.environment == "production" and site.cloudflare_analytics %}
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token": "{{ site.cloudflare_analytics }}"}'></script>
+{%- endif %}
 </body>
 </html>

@@ -112,6 +112,24 @@ not. Keep each file under ~250 KB; these are backgrounds, and nobody will zoom i
 
 `img/card.png` is the 1200x630 social card referenced by `head.html`.
 
+## Analytics
+
+Cloudflare Web Analytics, enabled by putting the beacon token in `_config.yml`:
+
+```yaml
+cloudflare_analytics: "your-beacon-token"
+```
+
+It is cookieless and stores nothing on the reader's machine, which is why this site carries no
+consent banner — and why it is the one third-party script here, on a site that removed a webfont
+CDN and a remote image API to avoid exactly that. The tag is emitted only when
+`jekyll.environment` is production, which is how GitHub Pages builds and is not how `jekyll serve`
+runs, so local work is never counted.
+
+Swapping it for something else (GoatCounter, Plausible, GA4) is the same two edits: the key in
+`_config.yml` and the block at the end of `_layouts/default.html`. GA4 would additionally need a
+consent banner, since it sets cookies.
+
 ## One-time setup for publishing
 
 1. Create the public repository and push this directory.

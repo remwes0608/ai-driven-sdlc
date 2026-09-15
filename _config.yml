@@ -18,6 +18,11 @@ linkedin_username: remigiusz-weska-5683335
 # retained in licenses/hydrogen-MIT.txt.
 lang: en
 
+# Cloudflare Web Analytics: the beacon token from the Web Analytics page of the Cloudflare
+# dashboard. Cookieless and without personal data, which is why there is no consent banner on this
+# site; the script is emitted only in a production build, so local work is never counted.
+# cloudflare_analytics: "your-beacon-token"
+
 markdown:       kramdown
 permalink:      /posts/:title/
 
