@@ -1,0 +1,19 @@
+<footer class="site-footer">
+  {%- comment -%}
+  The AI-assistance note sits here rather than on one page, so it reaches a reader who arrived
+  straight at a post — which is most of them.
+  {%- endcomment -%}
+  <aside class="ai-note">
+    <p><strong>On AI assistance.</strong> These articles are written and edited with AI support,
+    and so is the work they describe. What that does not extend to is the substance: the specs,
+    the failures and the numbers come from real projects, and every claim here I checked myself.</p>
+
+    <p>A site arguing that the specification is the artefact would be a strange place to hide how
+    its own text was produced. The spec for an article — its claim, its audience, what it refuses
+    to cover — is written before the prose, for the same reason it is written before the code.</p>
+  </aside>
+
+  {% include social-links.html %}
+
+  <p class="copyright">&copy; {{ site.author | default: site.title }} {{ 'now' | date: '%Y' }}</p>
+</footer>

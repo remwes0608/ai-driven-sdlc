@@ -1,0 +1,38 @@
+title:        The AI SDLC Memo
+description:  AI-assisted delivery from projects that shipped.
+author:       Remigiusz Weska
+
+# Where the site lands. For <user>.github.io/<repo>, url is the origin and
+# baseurl is "/<repo>"; for a user site or custom domain, empty the baseurl.
+url:          "https://remwes0608.github.io"
+baseurl:      "/ai-driven-sdlc"
+
+github_username: remwes0608
+
+# Footer social links; the theme builds https://www.linkedin.com/in/<slug>
+linkedin_username: remigiusz-weska-5683335
+
+# The theme is vendored into this repository rather than pulled with remote_theme: it is small
+# (six templates and a few stylesheets), we have modified most of it, and a pinned copy cannot
+# change under the site. Upstream is https://github.com/link9596/jekyll-theme-Hydrogen, MIT,
+# retained in licenses/hydrogen-MIT.txt.
+lang: en
+
+markdown:       kramdown
+permalink:      /posts/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+defaults:
+  - scope: { path: "", type: posts }
+    values:
+      layout: post
+
+exclude:
+  - README.md
+  - _notes
+  - Gemfile
+  - Gemfile.lock
+  - vendor

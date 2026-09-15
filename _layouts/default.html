@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+{% include head.html %}
+<body>
+
+{% include site-header.html %}
+
+{%- comment -%}
+The title band. Hydrogen's own `page-header`, kept deliberately short: it names what you are
+reading and then gets out of the way. The sticky bar above carries the site's identity from here
+on, which is the job the old 500px hero was failing to do.
+{%- endcomment -%}
+{%- assign page_title = page.title | default: site.title | escape -%}
+{%- assign page_tagline = page.subtitle | default: page.tagline | default: page.description -%}
+{%- if page.layout == 'home' -%}{%- assign page_tagline = site.description -%}{%- endif -%}
+<section class="page-header{% if page.layout == 'home' %} page-header-home{% endif %}">
+  <h1 class="project-name">{{ page_title }}</h1>
+  {% if page_tagline %}<h2 class="project-tagline">{{ page_tagline | escape }}</h2>{% endif %}
+  {% if page.layout == 'post' %}
+  <p class="project-date">
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time>
+    &middot; {{ page.author | default: site.author | escape }}
+    &middot; {% include read_time.html content=page.content %}
+  </p>
+  {% endif %}
+</section>
+
+<section class="main-content">
+  {{ content }}
+  {% include footer.html %}
+</section>
+
+<script src="{{ '/assets/js/core.js' | relative_url }}"></script>
+{% if page.layout == 'post' or page.toc %}<script src="{{ '/assets/js/toc.js' | relative_url }}"></script>{% endif %}
+</body>
+</html>

@@ -1,0 +1,117 @@
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1d3b36">
+
+  <title>{% if page.title and page.url != '/' %}{{ page.title | escape }} - {{ site.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+
+  <meta name="description" content="{{ page.description | default: page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+  {%- comment -%}
+  Open Graph and Twitter cards decide how a link renders when someone shares it; JSON-LD is what
+  search engines read for the article's author, dates and headline. Both are derived from the same
+  three values the page already has — title, description, date — so nothing here needs maintaining
+  per post. `page.description` is set per post in front matter; the excerpt is the fallback.
+  {%- endcomment -%}
+  {%- assign page_title = page.title | default: site.title | escape -%}
+  {%- assign page_desc = page.description | default: page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 200 | escape -%}
+  {%- assign page_url = page.url | replace:'index.html','' | absolute_url -%}
+  {%- assign card_image = "/img/card.png" | absolute_url -%}
+
+  <meta property="og:site_name" content="{{ site.title | escape }}">
+  <meta property="og:type" content="{% if page.date %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_desc }}">
+  <meta property="og:url" content="{{ page_url }}">
+  <meta property="og:image" content="{{ card_image }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ site.title | escape }} — {{ site.description | escape }}">
+  {%- if page.date %}
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+  <meta property="article:author" content="{{ site.author | escape }}">
+  {%- endif %}
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title }}">
+  <meta name="twitter:description" content="{{ page_desc }}">
+  <meta name="twitter:image" content="{{ card_image }}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    {%- if page.date %}
+    "@type": "BlogPosting",
+    "headline": {{ page.title | jsonify }},
+    "description": {{ page_desc | jsonify }},
+    "image": {{ card_image | jsonify }},
+    "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+    "dateModified": {{ page.last_modified_at | default: page.date | date_to_xmlschema | jsonify }},
+    "author": { "@type": "Person", "name": {{ site.author | jsonify }} },
+    "publisher": { "@type": "Organization", "name": {{ site.title | jsonify }}, "logo": { "@type": "ImageObject", "url": {{ card_image | jsonify }} } },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": {{ page_url | jsonify }} },
+    "url": {{ page_url | jsonify }}
+    {%- else -%}
+    "@type": "WebSite",
+    "name": {{ site.title | jsonify }},
+    "description": {{ site.description | jsonify }},
+    "url": {{ "/" | absolute_url | jsonify }},
+    "author": { "@type": "Person", "name": {{ site.author | jsonify }} }
+    {%- endif %}
+  }
+  </script>
+
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  {%- comment -%}
+  Local overrides on top of the vendored theme: the reading measure, the title band, the table of
+  contents, and the wide tables and diff blocks these articles carry.
+  {%- endcomment -%}
+  <link rel="stylesheet" href="{{ '/assets/css/extra.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  {%- comment -%}
+  Two sizes of every picture, chosen by media query rather than scaled by the browser. A phone
+  shows the band about 375px wide and the portrait at 84px, so the 1600px file it would otherwise
+  download is four times more than the screen can use. Only one rule matches at a time, so only
+  one file is ever fetched.
+
+  The scrim over the band is what keeps the palette honest. Against a pure-white photograph, the
+  worst case there is, it still puts white text at 6.7:1 at the top of the band and 4.7:1 at the
+  bottom; AA asks for 4.5. It also tints whatever the photograph is towards the band's own green,
+  so a forest and a flat colour read as the same site. It is as light as it can be and still carry
+  that guarantee — every further stop of brightness would be bought from a future picture.
+  {%- endcomment -%}
+  {%- if page.background or page.avatar %}
+  {%- assign band_sm = page.background | replace: '.jpg', '-sm.jpg' -%}
+  {%- assign face_sm = page.avatar | replace: '.jpg', '-sm.jpg' -%}
+  <style>
+  {%- if page.background %}
+  .page-header {
+    background-image:
+      linear-gradient(to bottom, rgba(16, 32, 29, 0.72), rgba(16, 32, 29, 0.62)),
+      url('{{ band_sm | relative_url }}');
+    background-size: cover;
+    background-position: center;
+  }
+  {%- endif %}
+  {%- if page.avatar %}
+  .author-portrait--toc { background-image: url('{{ face_sm | relative_url }}'); }
+  {%- endif %}
+  @media screen and (min-width: 64em) {
+    {%- if page.background %}
+    .page-header {
+      background-image:
+        linear-gradient(to bottom, rgba(16, 32, 29, 0.72), rgba(16, 32, 29, 0.62)),
+        url('{{ page.background | relative_url }}');
+    }
+    {%- endif %}
+    {%- if page.avatar %}
+    .author-portrait--inline { background-image: url('{{ page.avatar | relative_url }}'); }
+    {%- endif %}
+  }
+  </style>
+  {%- endif %}
+
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
+
+</head>

@@ -1,0 +1,27 @@
+---
+layout: page
+title: Articles
+description: AI-assisted delivery as it actually ran — what was decided, what it cost, and what survived. Practice from real projects rather than recipes to copy.
+background: /img/bands/articles-road.jpg
+permalink: /posts/
+---
+
+<p class="page-intro">Newest first. The argument starts at the other end — the earliest post is
+where it begins, and each one closes by pointing at the next — so reading up from the bottom is
+the cheapest way in. Every post is also written to stand on its own, because most people arrive
+from a search and land somewhere in the middle.</p>
+
+<ul class="post-list">
+  {%- comment -%}
+  Newest first, the same way round as the home page. This ran oldest-first for a while, on the
+  argument that the posts are a sequence; in practice a reader arriving here wants to see what is
+  new, and each post says in its own closing lines which one follows it.
+  {%- endcomment -%}
+  {% for post in site.posts %}
+  <li>
+    <span class="post-meta">{{ post.date | date: "%B %-d, %Y" }} &middot; {% include read_time.html content=post.content %}</span>
+    <h2><a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    {% if post.subtitle %}<p class="post-subtitle">{{ post.subtitle }}</p>{% endif %}
+  </li>
+  {% endfor %}
+</ul>

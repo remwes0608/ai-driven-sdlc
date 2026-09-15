@@ -1,0 +1,16 @@
+---
+layout: default
+---
+{%- comment -%}
+Two columns above 64em: the article, and a table of contents that follows the reader down it.
+Below that width the contents collapse above the text, where they read as a summary of what is
+coming rather than as navigation.
+{%- endcomment -%}
+<div class="post-with-toc">
+  {% include toc.html %}
+  <article id="post-body" itemscope itemtype="https://schema.org/BlogPosting">
+    <div itemprop="articleBody">
+      {{ content }}
+    </div>
+  </article>
+</div>
