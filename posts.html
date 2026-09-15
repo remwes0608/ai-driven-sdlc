@@ -6,16 +6,13 @@ background: /img/bands/articles-road.jpg
 permalink: /posts/
 ---
 
-<p class="page-intro">Newest first. The argument starts at the other end — the earliest post is
-where it begins, and each one closes by pointing at the next — so reading up from the bottom is
-the cheapest way in. Every post is also written to stand on its own, because most people arrive
-from a search and land somewhere in the middle.</p>
+{% include post-list-intro.html %}
 
 <ul class="post-list">
   {%- comment -%}
-  Newest first, the same way round as the home page. This ran oldest-first for a while, on the
-  argument that the posts are a sequence; in practice a reader arriving here wants to see what is
-  new, and each post says in its own closing lines which one follows it.
+  Newest first. This ran oldest-first for a while, on the argument that the posts are a sequence;
+  in practice a reader arriving at an index wants to see what is new, and each post says in its
+  own closing lines which one follows it.
   {%- endcomment -%}
   {% for post in site.posts %}
   <li>
