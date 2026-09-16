@@ -16,10 +16,16 @@ on, which is the job the old 500px hero was failing to do.
 <section class="page-header{% if page.layout == 'home' %} page-header-home{% endif %}">
   <h1 class="project-name">{{ page_title }}</h1>
   {% if page_tagline %}<h2 class="project-tagline">{{ page_tagline | escape }}</h2>{% endif %}
+  {%- comment -%}
+  Who the post is for, and what it assumes. It belongs in the band rather than in the article: a
+  reader deciding whether to start should meet it with the title, not four lines into the prose.
+  Opt-in per post, because the entry bar differs from one to the next.
+  {%- endcomment -%}
+  {% if page.audience %}<p class="project-audience"><strong>For:</strong> {{ page.audience }}</p>{% endif %}
   {% if page.layout == 'post' %}
   <p class="project-date">
-    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time>
-    &middot; {{ page.author | default: site.author | escape }}
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time><span
+      class="project-author"> &middot; {{ page.author | default: site.author | escape }}</span>
     &middot; {% include read_time.html content=page.content %}
   </p>
   {% endif %}

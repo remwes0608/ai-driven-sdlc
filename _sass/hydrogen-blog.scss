@@ -31,16 +31,41 @@
   -webkit-tap-highlight-color:transparent
 }
 
+/* The family needs every weight it will be asked for. Declared with no font-weight descriptor,
+   a face defaults to 400 -- so a single Medium face under mdFont meant every <strong> on the site
+   was synthetic bold, smeared from the Medium outlines, and barely distinguishable from body text.
+   Bold and SemiBold are the same files already vendored for txtbold; only the declarations are new.
+   txtbold stays because extra.css names it for the site title and the band. */
 @font-face
 {
     font-family: mdFont;
     src: url('PlusJakartaSans-Medium.ttf');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face
+{
+    font-family: mdFont;
+    src: url('PlusJakartaSans-SemiBold.ttf');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face
+{
+    font-family: mdFont;
+    src: url('PlusJakartaSans-Bold.ttf');
+    font-weight: 700;
+    font-display: swap;
 }
 
 @font-face
 {
     font-family: txtbold;
     src: url('PlusJakartaSans-Bold.ttf');
+    font-weight: 700;
+    font-display: swap;
 }
 
 body {

@@ -23,6 +23,7 @@
   --accent-on-dark: #8ec9b6;  /* links on the bar     7.6:1; on the band 6.5:1 */
   --bar:            rgba(23, 47, 43, 0.94);
   --band:           #1d3b36;  /* white title on it   12.1:1 */
+  --term:           #8f4a28;  /* inline code         6.1:1 on the #f3f6fa code tint */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,6 +31,7 @@
     --ink:    #c9cfcc;        /* 11.9:1 on the theme's #121212 */
     --muted:  #9aa19e;        /*  7.1:1 */
     --accent: #8ec9b6;        /* 10.0:1 */
+    --term:   #d59873;        /*  6.8:1 on the #1b1e21 code tint */
   }
 }
 
@@ -331,6 +333,93 @@ body { color: var(--ink); }
   #post-body { order: 1; }
 }
 
+/* The audience line. On the band it sits between the tagline and the date, quieter than the first
+   and steadier than the second: it is a filter, and a reader who belongs in the post should be able
+   to pass over it. Opacity rather than a colour, to match the tagline and the date line, which is
+   how the band handles every level below the title. */
+.page-header .project-audience {
+  font-size: 0.8rem;
+  font-weight: 400;
+  font-style: italic;
+  opacity: 0.78;
+  margin: 0.8rem auto 0;
+  max-width: 40rem;
+  line-height: 1.5;
+}
+
+.page-header .project-audience strong { font-weight: 700; font-style: normal; opacity: 0.95; }
+
+/* On a phone the band already takes half the screen before the contents box, so the two lines that
+   carry least go: the audience note, which is a filter for somebody choosing from a list and has
+   already done its work by the time the post is open, and the author, which is the same name on
+   every post of a one-author site and is in the footer anyway. The date and the read time stay,
+   because those are the two a reader actually decides on. Measured at 375x812: the band was 55% of
+   the screen with both, 50% after the note was shortened, and 44% with them dropped. */
+@media screen and (max-width: 38em) {
+  .page-header .project-audience,
+  .page-header .project-author { display: none; }
+}
+
+/* On the index it is one line between the title and the subtitle, with no rule beside it: the list
+   already has enough vertical furniture, and the job here is to let somebody skip an entry rather
+   than to be read. */
+.post-audience--list {
+  margin: 0.2rem 0 0.35rem;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.post-audience--list strong { color: var(--ink); }
+
+/* ---- Figures in an article -------------------------------------------- */
+/* The first illustrations on this site. A flat drawing on an off-white ground glares against the
+   dark page, so the figure gets its own panel with a hairline rather than floating as a bright
+   rectangle: the panel is the same near-white in both modes, and the border is what stops it
+   looking like a hole cut in the page. The caption is --muted, 5.9:1, measured at the top of this
+   file.
+
+   Two constraints, and the width one normally wins. The image runs the full width of the text
+   column, because its job is to break twenty minutes of reading and something narrower than the
+   paragraph beside it reads as an inset rather than a pause. A 16:9 drawing therefore lands at 704
+   by 396 on a desktop.
+
+   The height cap is the backstop, not the usual case. It binds on a short window -- a laptop with
+   the dev tools open, a browser that is not full screen -- where the full-width version would take
+   most of the screen, and it binds on a tall image, which is the right incentive: commission wide
+   ones. Both constraints keep the aspect ratio because neither dimension is fixed; the browser
+   takes whichever is tighter. */
+#post-body figure {
+  margin: 2.2rem 0;
+}
+
+#post-body figure img,
+#post-body p > img {
+  display: block;
+  max-width: 100%;
+  max-height: 45vh;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 4px;
+  background: #fbfbfa;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+}
+
+#post-body figcaption {
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  #post-body figure img,
+  #post-body p > img { border-color: rgba(255, 255, 255, 0.14); }
+}
+
 /* ---- Post lists ------------------------------------------------------ */
 /* One paragraph above the Articles list. It exists because the ordering no longer says how to
    read the posts, and because most arrivals are mid-sequence from a search. */
@@ -426,6 +515,18 @@ body { color: var(--ink); }
   border-right: 0;
   border-top: 0;
 }
+
+/* Inline code in running text is a term from somewhere else — a status from a specification, a
+   command, a file name — and it has to look like one. The theme's #567482 grey measured 4.6:1 on
+   the light tint and 3.36:1 on the dark one, so it was below this site's floor in light and below
+   AA in dark; both were measured in the browser rather than derived from the stylesheet. --term is
+   a warm hue deliberately unlike --accent, because links here carry the accent colour and are not
+   underlined: accent-coloured code would be indistinguishable from a link. Block code keeps --ink,
+   which was decided separately and stays. */
+.main-content p code,
+.main-content li code,
+.main-content h2 code,
+.main-content h3 code { color: var(--term); }
 
 /* Inline code in a cell keeps the theme's own size and colour, so a header containing `f16` sits
    half again as large as the words beside it. It inherits the cell here. */

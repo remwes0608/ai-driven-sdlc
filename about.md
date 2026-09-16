@@ -17,9 +17,8 @@ I was writing games before I went to university and had a job in the industry wh
 studying, and I have held most of the roles between writing the code and answering for it since. The
 titles are the least interesting part; the roles taught one thing worth repeating. I have been the
 engineer holding on to a process that worked right up until it stopped working, and years later the
-one arguing with a colleague who was doing exactly that with the process which had replaced it.
-Both times the person holding on was right about the method and wrong about the moment. It is not
-a mistake you make once and then recognise for ever.
+one arguing with a colleague who was doing exactly that with the process which had replaced it. It
+is not a mistake you make once and then recognise for ever.
 
 What I trust is what I measured and what I was accountable for. Most of what gets written about
 AI-assisted delivery is neither, which is roughly why this site exists.
@@ -66,17 +65,14 @@ change breaks conventions that were all shaped by it being expensive — when we
 review, where the source of truth lives, what counts as done.
 
 The uncomfortable part is not that AI writes bad code. Generated code is usually fine. It is that
-**the implementer stopped absorbing ambiguity.** A person hitting an underspecified requirement
-notices and resolves it, hundreds of times per feature, almost never writing any of it down. An
-agent does not stop. It resolves the gap too, plausibly and silently, and the resolution reaches
-production without ever having been a decision anyone made.
+the gaps a person would have noticed and quietly closed now get closed by an agent, just as quietly,
+and the result reaches production without ever having been a decision anyone made.
 
 So the failure mode is not bad code. It is code that correctly implements something nobody
 specified.
 
-And the industry has no settled answer yet. There are several serious, independent proposals for
-what to do about it, and they do not share a vocabulary — which is a phase software engineering has
-been through before, with a known shape and a known ending.
+The industry has no settled answer yet, and the shape of how it will get one is where the writing
+here starts: [new tools, same circle]({{ "/posts/new-tools-same-circle/" | relative_url }}).
 
 ## What I have actually built with this
 
@@ -84,7 +80,7 @@ Three situations, because a practice that only works in one of them is not a pra
 
 **A major-version migration** of an identity and access management platform, delivered in an agentic
 model: every feature tracked one by one against the legacy source, every recovered behaviour written
-down as a decision record, and a suite that fails when one of them stops being true. Here the
+down as a decision record, with end-to-end tests standing behind each of them. Here the
 specification had to be recovered from a running system before anything could move.
 
 **A greenfield product** run under AI SDLC from the first day, where agents generate the whole of it
@@ -109,24 +105,15 @@ organisation can no longer justify against what the delivery is worth. It is a d
 slowly, which is exactly what makes it hard to argue against early, while it still looks like
 progress.
 
-The clients stay unnamed. The figures behind all three are in the posts.
-
-## What gets written up here, and what does not
-
-Practice that survived contact with those projects: what to write down, when, what an agent may
-decide on its own, and what has to be decided by someone accountable. Where an article claims
-something works, it shows the numbers or the text that came out of it.
-
-Not here: model comparisons and tool benchmarks, which date in weeks; prompt technique, because a
-specification is not a prompt — it outlives the session, people review it, and it is versioned with
-the code; and the autonomy debate, which is a real question and a different one. Everything here
-assumes a human decides what gets built.
+The figures are in the posts, not here.
 
 ## Who it is for
 
 Engineers and leads introducing this into work that has consequences — production systems, regulated
 domains, code other teams depend on. The assumed reader has already generated a feature, seen it
-work, and noticed that the process around it no longer quite fits.
+work, and noticed that the process around it no longer quite fits. What they get is practice that
+survived contact with those three projects: what to write down, when, what an agent may decide on
+its own, and what has to be decided by someone accountable.
 
 If you are evaluating whether any of this applies to your organisation, or want to argue with a
 figure, the links in the footer reach me.

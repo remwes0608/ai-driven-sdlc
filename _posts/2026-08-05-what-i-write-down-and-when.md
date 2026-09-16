@@ -1,36 +1,80 @@
 ---
 title: "What I write down, and when"
-subtitle: "One pass through the life cycle — the artefact each phase owns, what it is allowed to decide, and how often it moves"
+subtitle: "The documents an AI-assisted project actually needs, and the speed each one is allowed to move at"
+audience: "leads and architects setting the process up. The lightest entry point here; assumes only a delivery life cycle."
 description: "The artefacts an AI-assisted project needs, walked through in order: vision, design, development, testing, delivery — what each phase owns and the cadence it runs at."
 ---
 
-**One pass through the whole life cycle. Not a template guide and not a deep dive on any of it — the
-artefact each phase owns, what it is allowed to decide, and how often it moves.**
+**Most process pain is a cadence mismatch, not a missing document. One pass through the whole life
+cycle, phase by phase: the artefact each one owns, what it is allowed to decide, and how often it
+moves.**
 
-Two things to say before the phases. These artefacts run at **different cadences**, and most process
-pain is a cadence mismatch rather than a missing document. And the order below is the order
-information is allowed to travel: each phase constrains the next, and nothing flows back up.
+Two things to say before the phases. The cadence claim is the one the post rests on: these artefacts
+run at **different speeds**, and the table at the end puts them side by side. And the order of the
+phases is the order information is allowed to travel: each phase constrains the next, and nothing
+flows back up.
 
-## Before the phases: the four files
+## The agent's own files
 
-`README.md`, `SKILLS.md`, `CLAUDE.md`, `AGENTS.md`. Every repository has some of these now. Two
-things about them cost me something to learn.
+`README.md`, `CLAUDE.md`, `AGENTS.md`, and a `SKILL.md` per skill — the last one lives inside
+`.claude/skills/<name>/`, not at the root, which is worth knowing before you go looking for it.
+Every repository has some of these now. Three things about them cost me something to learn.
 
 **CLAUDE.md and AGENTS.md must not be updated automatically by the agent.** A file the agent
 maintains is a file that agrees with whatever the agent already believes, which makes it useless as
 a constraint at exactly the moment you need one.
 
+**`AGENTS.md` is a convention, not a guarantee that anything reads it.** It is the cross-tool name,
+and the tools do not all honour it: Claude Code reads `CLAUDE.md` and the rules files beside it, and
+ignores `AGENTS.md` unless you point at it — a one-line `CLAUDE.md` containing `@AGENTS.md`, or a
+symlink between the two.
+
+Nothing errors when you get that wrong. The file sits in the root looking authoritative and is never
+loaded, which is the expensive shape of failure: not a broken build, a constraint that was never
+applied. So check what actually loaded rather than assuming, in whichever agent you are using —
+every tool with instruction files can tell you, and it is a question worth asking once per
+repository and again after each upgrade.
+
 A **skill** is an activity that helps do something specific. It says nothing about your software.
-That distinction keeps the file small: I use three or four, not a catalogue. A skill nobody invokes
+That distinction keeps the set small: I use three or four, not a catalogue. A skill nobody invokes
 is a skill nobody maintains.
+
+**And this list has a shelf life.** Not long ago I was writing commands where I now write skills.
+The command files still work, and the documentation now describes them as the older format — which
+is how this kind of change arrives: nothing breaks, the thing you built simply stops being the way
+it is done, and nobody tells you.
+
+So the rule is not *only these four files*. The set is not closed: it gains members, and the ones
+already in it change what they do. The rule is to read what a new version changed before assuming
+your setup still means what it meant when you wrote it. A file that has quietly become the
+wrong mechanism announces itself no more loudly than the one nobody loaded — and at this pace, that
+check belongs in the calendar rather than in the reaction to a problem.
 
 ## 1 · Vision
 
-Product vision and requirements are tracked separately, the way MSF had them. They answer different
-questions, they move at different speeds, and collapsing them into one document costs you the
-ability to say no — a backlog cannot refuse anything, a vision can.
+Product vision and requirements are tracked separately, the way Microsoft's Solutions Framework had
+them. They answer different questions, they move at different speeds, and collapsing them into one
+document costs you the ability to say no — a backlog cannot refuse anything, a vision can.
 
 Vision moves rarely and deliberately. Requirements move per release train.
+
+**And none of this depends on which agent you use.** The agent's instruction files are a product's
+furniture and they churn; a vision does not, which is most of why it is worth keeping in a form you
+can point at.
+
+It earns its place by being consulted, and the moment to consult it is **before a decision
+changes** — not while writing it. A proposed change the vision does not cover is either out of
+scope, or a sign that the vision moved and nobody wrote it down. Both are worth knowing before the
+change lands, and neither is visible from inside the change itself.
+
+**The most common failure here, and the earliest warning a project gives: the product vision is
+written as a feature description.** Usually a good one — detailed, agreed, signed off, and useless
+in the role.
+
+When that surfaces it reads as a scope problem, or a stakeholder problem, and it is neither. The
+*why* was never settled, and every artefact after it inherited the gap. **Which is what makes it
+worth checking on day one: it is visible before anything has been built, and it never gets cheaper
+to fix.**
 
 ## 2 · Design
 
@@ -57,13 +101,39 @@ changed how much a description is worth.
 rather than inside it: what crosses the boundary, in what shape, and who owns which side. HLD and
 LLD are the inside-the-SDLC pair, describing how the system is built.
 
-The distinction predicts cadence. An HLD moves with the design. An IA moves when the relationship
-between two parties changes, which is rare and usually needs signatures.
+The distinction predicts cadence. An HLD moves with the design. An IDD or an IA moves when the
+relationship between two parties changes, which is rare — and for the IA, usually needs signatures.
+
+**The reason to write them early is not the one the names suggest.** They sound like integration
+paperwork — documents two parties sign somewhere near a delivery date — and read that way they can
+wait until there is something to integrate.
+
+They cannot, because an interface that exists early stops being a document and starts being an
+input. Mocks get generated from it instead of hand-written against a guess. Smoke scenarios can be
+written before either side is built. Two teams work in parallel against the same shape rather than
+against each other's assumptions.
+
+**So the payoff lands in development, not at integration** — which is the opposite of where the
+name puts it, and the reason the artefact keeps being scheduled late.
 
 ### Test scenarios, derived from the descriptions
 
 From the feature description, never from the implementation. A scenario derived from the code cannot
 fail; one derived from the description can, which is the entire point of having it.
+
+**With an agent it is worse than that.** When a scenario derived from the description does
+eventually fail, the agent may well fix it — the test is the artefact in front of it, and making the
+test agree with the code is the smallest available change. It may go a step further and update the
+description, or the decision behind it, so those agree too.
+
+Nothing about that repeats, which is what makes it hard to catch. Each step is one small
+reconciliation in one direction, and when the last artefact has been brought into line with the
+implementation, nothing in the project can contradict it any more — the defect has become the
+specification.
+
+It is the same failure as regenerating a description from the code, arriving through a door nobody
+guards. **The rule is the same in both cases: knowledge flows one way, and a test is not an
+exception to it.**
 
 ## 3 · Development
 
@@ -72,37 +142,77 @@ fail; one derived from the description can, which is the entire point of having 
 Project, module and library level decisions — technical, functional and non-functional. The list of
 what has to be decided explicitly is longer than people expect:
 
-- Version control, and the repository layout. Be prepared for several MRs a day: **a monorepo is
-rarely the right answer** under that load.
-- Base architecture and technology. Coding practices. SCM flows. SAST rules.
-- Non-functional requirements: observability, performance, security.
-- Unit testing rules **and their exclusions** — Lombok-style generated code being the usual case.
-- How features get implemented.
-- **The API, where there is one.** Define the specification from established standards rather than
-letting it emerge. I used JSON:API for a long time and teams struggled to deliver every requirement
-— but switching to bare OpenAPI and letting the developer or the agent decide freely is much worse.
-Deciding the spec first turns API generation into a fully automated step.
+- Version control, and the repository layout — `adr/A*`.
+- Base architecture and technology — `adr/A*`.
+- Coding practices. SCM flows. SAST rules — `adr/A*`, and a rules file the agent loads.
+- Non-functional requirements: observability, performance, security — `adr/N*`, or `adr/S*` if you
+keep fewer categories.
+- Unit testing rules **and their exclusions**, generated code being the usual case — `adr/A*`.
+- **The API, where there is one** — decided in `adr/A*`, specified in `spec/`.
+- How features get implemented — `adr/F*`, with the descriptions themselves in `features/`.
+- The test environment and what the agent is allowed to touch — a **skill**, not an ADR.
 
-Two rules around them. **ADRs are hierarchical** — project root, then subproject, then below. And
-**do not leave any requirement unattended**: the agent will decide it otherwise, quietly and
-plausibly. Better to tell it explicitly what it is allowed to decide.
+**Those prefixes are a departure from the published conventions, and they cost nothing.** A letter
+before the number and a separate sequence per category: `A001`, `F001`, `S001`. Chronology survives
+inside each group, the records cluster themselves without anybody maintaining an index, and `adr/A*`
+becomes a readable subset rather than a search. Mine are Architecture, Feature and System; the
+letters are a per-project choice, not a standard.
+
+It is also not a private invention. [MADR's own decision on
+categories](https://adr.github.io/madr/decisions/0010-support-categories.html) weighed seven ways of
+doing this and this is their option four — the category encoded in the filename — with per-category
+sequences added. MADR picked subfolders instead, at the same trade-off: identifiers unique within a
+category rather than across the repository. The prefix wins here for one reason, which is that it
+survives `ls`, `grep -r` and a filename pasted into a chat window, and those are how these records
+actually get read.
+
+**Some of those live in two places, and that is not duplication.** A coding practice, an SCM flow
+or a SAST rule is a decision, so it belongs in a record — and it is also something the agent has to
+obey while it edits, which a record read once at the start does not achieve. The ADR carries the
+decision and the reasoning; the rules file carries the operative line, scoped to the files it
+applies to. Anything a linter or a formatter can enforce belongs to neither: put it in the tool and
+let the tool be the one that is always right.
+
+One of them is worth more room than a list gives.
+
+**Take the API specification from an established standard** rather than letting it emerge. I used
+JSON:API for a long time and teams struggled to deliver every requirement — but switching to bare
+OpenAPI and letting the developer or the agent decide freely is much worse. Deciding the spec first
+turns API generation into a fully automated step.
+
+**Where that specification lives is a separate decision, and the answer is not "in the agent's
+context".** It sits in `spec/` and stays out of the prompt. What reaches the agent is a reference
+from a rule, pointed at the part that governs the decision or the scenario actually in front of it.
+
+The distinction only shows up at scale, which is why it gets skipped. JSON Schema or JSON:API are
+small enough that loading them costs nothing and the question never comes up. TM Forum's API
+guidelines, or a 3GPP protocol specification, are a different order of thing — and turning one of
+those into something an agent can use is a task in its own right, not a preprocessing step you slot
+in before the real work.
+
+There are projects that convert specifications into skills wholesale. What I have seen of that has
+not worked, and the mechanics are against it: a skill's body enters the conversation on first use
+and stays for the rest of it. **A standard is not a procedure you run. It is a reference you consult
+at one specific point**, and anything that keeps it permanently in front of the model is charging
+every turn that did not need it.
+
+Two rules around the records themselves. **ADRs are hierarchical** — project root, then subproject,
+then below. And **do not leave any requirement unattended**: the agent will decide it otherwise,
+quietly and plausibly. Better to tell it explicitly what it is allowed to decide.
 
 On form: keep them human-first and clean. Sequence diagrams are fine. Block diagrams mislead more
 often than they explain. Mermaid or draw.io both work, and recent models read diagrams far better
 than they did a year ago. Do not shy away from decisions about the interface either — WCAG
 conformance is a decision an agent can now check, because it can see and measure the UI.
 
-There are several ADR conventions published; you will end up with your own. Mine grew one addition
-that earns its keep: **automatic research into existing solutions, because reuse beats
-implementation** and the research is now cheap.
+There are several ADR conventions published; you will end up with your own. Besides the category
+prefixes, mine grew one more addition that earns its keep: **automatic research into existing
+solutions, because reuse beats implementation** and the research is now cheap.
 
-**ADRs are not append-only**, which is the one place this practice parts company with every
-published convention. While a decision is draft it gets consolidated — merged, amended, collapsed
-into one clean statement. Once it is Approved or Accepted the strict rules take over: superseded
-rather than edited, with the history kept.
-
-The reasoning is worth more room than a survey can give it, so it has its own piece: [consolidate,
-then freeze]({{ "/posts/consolidate-then-freeze/" | relative_url }}).
+**ADRs are not append-only from the first keystroke.** A draft gets consolidated; once it is
+`Approved` or `Accepted` the strict rules take over. Why that is a departure from the conventions
+rather than a contradiction of them takes a post of its own: [consolidate, then
+freeze]({{ "/posts/consolidate-then-freeze/" | relative_url }}).
 
 ### The generated ADR-to-source mapping
 
@@ -141,17 +251,30 @@ trace service interaction, eBPF events, and everything else DevSecOps will want 
 Define the test environment and the agent's permissions in a **skill**, so the boundary is written
 down rather than remembered.
 
+**And be careful what is sitting on the disk it can read.** The models have got noticeably better at
+refusing the obvious things, and that improvement does not cover the two cases that actually happen.
+An agent working across your home directory finds credentials that were never meant for it — not by
+hunting for them, simply by reading what is there. And no safety rule catches you pointing it at the
+wrong environment: *clean up the database* is a legitimate instruction, correctly executed, against
+production.
+
+The second one is not a model problem, which is why hardening the model does not address it. The
+sandbox is what stands between a mistyped target and a real system, so it is worth the layers that
+implies: separate accounts, separate credential storage, and no path from the workspace to anything
+you would mind losing.
+
 ### Smoke scenarios, against something real
 
 The scenarios written in design now run against a deployed system rather than a mocked one, at
 browser and protocol level. That is where a functional flow belongs once it has to prove anything —
 and it is a different job from the unit tests in development, which never leave the build.
 
-### Coverage of requirements, as an artifact
+### Coverage of requirements, as an artefact
 
-Not line coverage — coverage of requirements, rendered as something a person can look at and argue
-with. It is generated from the feature descriptions, the scenarios and the ADR-to-source mapping,
-which is the only reason it stays true.
+The other coverage, and it answers a different question. Development measures how much of the code
+is watched; this measures how much of what was asked for can be shown to work — rendered as
+something a person can look at and argue with, and generated from the feature descriptions, the
+scenarios and the ADR-to-source mapping, which is the only reason it stays true.
 
 ## 5 · Delivery
 
@@ -181,7 +304,7 @@ report a human reads afterwards.
 And every gate leaves an **artefact rather than a status**. Pass/fail is the least durable thing a
 check knows. Trivy will scan whatever you point it at; the real questions are which artefact, at
 which moment, and what you keep. Cosign or Notary for signatures, because compliance is a question
-about evidence. Keep it in the CI artifact store, not in the repository: the repository holds what
+about evidence. Keep it in the CI artefact store, not in the repository: the repository holds what
 was authored, the store holds what a run produced.
 
 ### The software card, and everything after release
@@ -206,7 +329,7 @@ tests/        smoke test scenarios
 ```
 
 No folder for evidence or deliverables — the right place to generate and keep those is the CI
-artifact store.
+artefact store.
 
 ## The cadences, together
 

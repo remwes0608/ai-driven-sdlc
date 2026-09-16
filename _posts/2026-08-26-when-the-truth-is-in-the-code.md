@@ -1,6 +1,7 @@
 ---
 title: "When the truth is in the code"
 subtitle: "Spec-driven delivery in a migration, where the specification is recovered rather than written"
+audience: "engineers facing a migration where no document describes the system. No prior reading needed."
 description: "A migration starts from the opposite condition to a greenfield build: the system exists, no document describes it, and the code is the only authority. What that changes about the specification, and how to validate one you did not write."
 ---
 
@@ -10,9 +11,7 @@ authoritative about *what* and silent about *why* — plus whatever the team car
 in their heads.**
 
 The case below is a single-sign-on system I migrated for a client: an extension of an open-source
-SSO framework, several major versions behind current, on the Java release that came out in 2014. The
-figures here describe the shape of the codebase and nothing about the client's business — no
-customer count, no team size, no delivery volume. What is left is what carries the argument.
+SSO framework, several major versions behind current, on the Java release that came out in 2014.
 
 | | |
 |---|---|
@@ -36,7 +35,7 @@ all. The schema is the artefact. The code is a build product. Delete the generat
 is lost, because the description it came from is complete.
 
 It is also, in this codebase, the **only** layer with that property. For the other 160 files there
-is no description. The truth is the code, exactly and exclusively.
+is no description. The truth is the code, and nothing written beside it.
 
 ## What the code is authoritative about, and what it is not
 
@@ -93,8 +92,7 @@ different object:
 someone hoped they were doing. Lines like *"context assignment rewritten for better password reset
 handling"* tell you a file changed and somebody was optimistic.
 - It has **no edge cases, no invariants, no non-goals** — the three things an implementation
-  actually
-has to honour.
+  actually has to honour.
 - It **cannot distinguish a behaviour from a bug that shipped**, because both arrive as commits and
 both are still running in production.
 - It **flatters the codebase**, because failed approaches leave no trace in a summary of what was
@@ -128,15 +126,15 @@ against the thing itself**.
 | Failure mode | Wrong thing built | Confident description of behaviour that isn't there |
 | Written | Before the code | Before the *next* code |
 
-That reordering also changes what the document is. The vehicle for a recovered behaviour turned out
-to be an ADR — not the familiar "we chose X over Y", but *this is what the system does here, this is
-the context it was recovered from, and these are the consequences of keeping it*. Of the 48 decision
-records the project produced, **32 were functional**: one recovered behaviour each.
+Writing it after the code also changes what the document is. The vehicle for a recovered behaviour
+turned out to be an ADR — not the familiar "we chose X over Y", but *this is what the system does
+here, this is the context it was recovered from, and these are the consequences of keeping it*. Of
+the 48 decision records the project produced, **32 were functional**: one recovered behaviour each.
 
 That format earns its place because of the one thing it lets a later reader do — tell an intentional
-decision apart from a defect. Thirty-one inherited superclass behaviours look identical in the
-source whether they were chosen or absorbed. Written down with their context, they stop being
-identical.
+decision apart from a defect. Thirty-three subclasses, reaching into thirty-one distinct upstream
+classes, look identical in the source whether the behaviour they lean on was chosen or absorbed.
+Written down with their context, they stop being identical.
 
 A record is still only a claim until something runs it. That is what the end-to-end scenarios are
 for: a recovered behaviour has to be asserted against a deployed system rather than a mocked one,
@@ -145,8 +143,8 @@ in a status report.
 
 And the acceptance criteria for a migration are the old behaviour, which forces a decision nobody
 enjoys: bug-for-bug compatibility, per behaviour, explicitly. Not as a blanket policy in either
-direction. Some of those thirty-one inherited behaviours are load-bearing for a customer somewhere,
-and finding out which ones is the actual project.
+direction. Some of those inherited behaviours are load-bearing for a customer somewhere, and
+finding out which ones is the actual project.
 
 ## The part you cannot read at all
 
@@ -220,10 +218,13 @@ outside. It did not come from generating the new code faster; that was never the
 came from the archaeology: reading unfamiliar code at volume, reconciling it against live behaviour,
 and challenging every gap. That work normally consumes the schedule before a line is written.
 
-The defects were not instability inherited from the legacy system, which was stable. They came from
-incompatibilities with the new version's specification — the places where the upstream contract had
-moved underneath a behaviour that had been relied on. The same thirty-one superclasses from the
-start of this article, arriving as a bill.
+The migration's defects were not instability inherited from the legacy system, which was stable.
+They came from incompatibilities with the new version's specification — the places where the
+upstream contract had moved underneath a behaviour that had been relied on. The same thirty-one
+superclasses from the start of this article, arriving as a bill.
+
+The tenant configuration stayed where it was, per tenant, and produced no defects. The layer that
+could not be read was not the layer that broke.
 
 ## What survives
 

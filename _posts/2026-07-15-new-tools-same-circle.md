@@ -1,6 +1,7 @@
 ---
 title: "New tools, same circle"
-subtitle: "The tools are genuinely new. The loop they are running is one the industry has already been round once"
+subtitle: "Where agentic delivery sits on a loop the industry has been round before, and what to build knowing how the last turn ended"
+audience: "architects and managers introducing AI SDLC. Assumes you know ADRs and have looked at Spec Kit."
 description: "The tools are genuinely new. The shape of what happens next is not: competing approaches, consolidation, maturity, rigidity, correction. Where agentic delivery sits on that loop, and what to build knowing how the last turn ended."
 ---
 
@@ -43,7 +44,8 @@ it could absorb it.
 That is the engine, and nobody is stupid at any point in it.
 
 Agentic delivery is at the top of a new turn, and the reason is the same: generation got cheap, so
-the cost moved again. There are several serious, independent proposals for what to do about it —
+the cost moved again — out of writing the code and into saying what the code should do. There are
+several serious, independent proposals for what to do about it —
 [Spec Kit](https://github.com/github/spec-kit) covering specification and code,
 [ai-sdlc](https://github.com/ai-sdlc-framework/ai-sdlc) covering execution and governance, Amazon's
 Kiro doing its own version of both — and they do not share a vocabulary. Spec Kit renamed its own
@@ -65,13 +67,13 @@ I was a mid-level developer and it helped me in a way I have not seen anything r
 let me switch between customers without re-learning how to work. Everything was unified. Only the
 code and the product were different.
 
-Then a new CEO arrived and purged it, as far as I could tell without looking at it properly. From my
-desk that was vandalism. What I could not see from my desk — and this is the part worth admitting —
-was that the market had already changed, and he could see it.
+Then a new CEO arrived and purged it, without, as far as I could tell, ever looking at the method
+itself. From my desk that was vandalism. What I could not see from my desk — and this is the part
+worth admitting — was that the market had already changed, and he could see it.
 
 We went into Agile dragging as much of the old methodology behind us as we could, to survive. Very
-few people noticed what we were doing: **the old method was not a lifebuoy, it was a weight.** The
-goal was never to preserve what worked before. It was to start swimming faster.
+few of us noticed what we were actually doing: **the old method was not a lifebuoy, it was a
+weight.** The goal was never to preserve what worked before. It was to start swimming faster.
 
 **Second time round, I was the other one.**
 
@@ -95,9 +97,10 @@ That is a real break with everything the old practice assumed, and it is why the
 a different kind of precision rather than a revival.
 
 **Did not change.** People still have to agree on what they are producing before they can work in
-parallel. I ran delivery on a programme spanning Europe, North America, the Middle East and Asia —
-different companies, time zones and working cultures — and what unlocked it was the programme
-manager saying, more or less: *guys, we all know what an HLD is, and an IDD, and an IA. Use them.*
+parallel. I ran delivery for one of the parties on a programme spanning Europe, North America, the
+Middle East and Asia — different companies, time zones and working cultures — and what unlocked it
+was the programme manager saying, more or less: *guys, we all know what an HLD is, and an IDD, and
+an IA. Use them.*
 
 Nothing was invented in that sentence. He was pointing at knowledge every engineer in the room
 already had and nobody had thought to invoke, and it worked immediately: people from different

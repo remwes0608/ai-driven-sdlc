@@ -21,6 +21,7 @@ from a search and land somewhere in the middle.</p>
   <li>
     <span class="post-meta">{{ post.date | date: "%B %-d, %Y" }} &middot; {% include read_time.html content=post.content %}</span>
     <h2><a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    {%- if post.audience %}<p class="post-audience post-audience--list"><strong>For:</strong> {{ post.audience }}</p>{% endif %}
     {% if post.subtitle %}<p class="post-subtitle">{{ post.subtitle }}</p>{% endif %}
   </li>
   {% endfor %}

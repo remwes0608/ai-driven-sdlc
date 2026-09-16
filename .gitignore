@@ -11,3 +11,6 @@ _notes/
 
 # Authoring tooling. The house rules are for writing the blog, not for building it.
 .claude/
+
+# Local-only rewrites for comparison; never published.
+_drafts/
