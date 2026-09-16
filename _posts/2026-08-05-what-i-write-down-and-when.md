@@ -16,39 +16,13 @@ flows back up.
 
 ## The agent's own files
 
-`README.md`, `CLAUDE.md`, `AGENTS.md`, and a `SKILL.md` per skill — the last one lives inside
-`.claude/skills/<name>/`, not at the root, which is worth knowing before you go looking for it.
-Every repository has some of these now. Three things about them cost me something to learn.
-
-**CLAUDE.md and AGENTS.md must not be updated automatically by the agent.** A file the agent
-maintains is a file that agrees with whatever the agent already believes, which makes it useless as
-a constraint at exactly the moment you need one.
-
-**`AGENTS.md` is a convention, not a guarantee that anything reads it.** It is the cross-tool name,
-and the tools do not all honour it: Claude Code reads `CLAUDE.md` and the rules files beside it, and
-ignores `AGENTS.md` unless you point at it — a one-line `CLAUDE.md` containing `@AGENTS.md`, or a
-symlink between the two.
-
-Nothing errors when you get that wrong. The file sits in the root looking authoritative and is never
-loaded, which is the expensive shape of failure: not a broken build, a constraint that was never
-applied. So check what actually loaded rather than assuming, in whichever agent you are using —
-every tool with instruction files can tell you, and it is a question worth asking once per
-repository and again after each upgrade.
-
-A **skill** is an activity that helps do something specific. It says nothing about your software.
-That distinction keeps the set small: I use three or four, not a catalogue. A skill nobody invokes
-is a skill nobody maintains.
-
-**And this list has a shelf life.** Not long ago I was writing commands where I now write skills.
-The command files still work, and the documentation now describes them as the older format — which
-is how this kind of change arrives: nothing breaks, the thing you built simply stops being the way
-it is done, and nobody tells you.
-
-So the rule is not *only these four files*. The set is not closed: it gains members, and the ones
-already in it change what they do. The rule is to read what a new version changed before assuming
-your setup still means what it meant when you wrote it. A file that has quietly become the
-wrong mechanism announces itself no more loudly than the one nobody loaded — and at this pace, that
-check belongs in the calendar rather than in the reaction to a problem.
+`CLAUDE.md`, the rules beside it and a `SKILL.md` per skill are the one part of this that is about
+configuring the agent rather than shipping software, and they have a post of their own: [why the
+agent seems scatterbrained]({{ "/posts/why-the-agent-seems-scatterbrained/" | relative_url }}). Two
+things from it that the phases depend on. The agent never maintains its own instruction file,
+because a file the agent writes agrees with whatever it already believes. And a skill is an activity
+that helps do something specific, not a description of your software — I use three or four, not a
+catalogue.
 
 ## 1 · Vision
 
